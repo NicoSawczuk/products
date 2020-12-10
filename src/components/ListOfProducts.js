@@ -9,12 +9,15 @@ export default function ListOfProducts({ products }) {
 
     return (
         <>
-            <Grid container justify="center" alignItems="center" spacing={8}>
+            <Grid container justify="center" alignItems="center" spacing={4}>
                 {products.map((element) => {
                     return (
-                        <Grid item lg >
-                            <ProductCard key={element.id.id}
-                                productData={element}
+                        <Grid item >
+                            <ProductCard key={element.id}
+                                title={element.title}
+                                image={element.image}
+                                description={element.description}
+                                price={element.price}
 
                             />
                         </Grid>

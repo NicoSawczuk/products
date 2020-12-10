@@ -18,6 +18,7 @@ export async function getProducts(collection = 'products') {
     return products;
 }
 
+
 export async function saveProduct(data, collection = 'products') {
     db.collection(collection).add(data);
     return getProducts()

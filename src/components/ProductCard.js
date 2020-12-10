@@ -13,14 +13,15 @@ import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: 345,
-        minWidth: 345,
+        flexGrow: 1,
+        maxWidth: 241,
+        minWidth: 241,
     },
     media: {
         height: 220,
     },
 });
-export default function ProductCard(productData) {
+export default function ProductCard({ title, image, description, price }) {
     const classes = useStyles();
 
     return (
@@ -28,18 +29,18 @@ export default function ProductCard(productData) {
             <CardActionArea>
                 <CardMedia
                     className={classes.media}
-                    image={productData.productData.image}
-                    title={productData.productData.title}
+                    image={image}
+                    title={title}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        {productData.productData.title}
+                        {title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {productData.productData.description}
+                        {description}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {productData.productData.price}
+                        {price}
                     </Typography>
                 </CardContent>
             </CardActionArea>

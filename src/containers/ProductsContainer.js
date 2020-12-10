@@ -6,11 +6,12 @@ import Sidebar from '../components/Sidebar'
 import ListOfProducts from '../components/ListOfProducts';
 import useStyles from '../hooks/useStyles'
 import useTheme from '../hooks/useTheme'; import Card from '@material-ui/core/Card';
-import { saveProduct, getProducts, suscribe } from '../services/ProductsService'
+import { saveProduct } from '../services/ProductsService'
 
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import ProductForm from '../components/ProductForm';
+import { db } from '../config'
 
 export default function ProductsContainer() {
     const classes = useStyles();
@@ -21,16 +22,16 @@ export default function ProductsContainer() {
 
     useEffect(function () {
         setLoading(true)
-        getProducts()
-            .then((products) => {
-                setProducts(products)
-                setLoading(false)
-            }).catch(({ error }) => {
-                setLoading(false)
-                console.log(error)
-            })
+        const suscribe = async () => {
+            db.collection('products')
+                .onSnapshot(function (data) {
+                    setProducts(data.docs.map(doc => ({ ...doc.data(), id: doc })))
+                    setLoading(false)
+                })
+        }
+        suscribe();
     }, [])
-
+    
     const handleSubmitProduct = (data) => {
         setLoading(true)
         saveProduct(data)

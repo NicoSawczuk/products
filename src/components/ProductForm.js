@@ -14,14 +14,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ProductForm({saveProduct}) {
+export default function ProductForm({ saveProduct, updateProduct, form, setForm, editing }) {
     const classes = useStyles();
-    const [form, setForm] = useState({
-        title: '',
-        description: '',
-        price: '',
-        image: ''
-    })
+
     const [errorForm, setErrorForm] = useState({
         title: '',
         description: '',
@@ -95,7 +90,11 @@ export default function ProductForm({saveProduct}) {
         e.preventDefault()
         if (validateData(form)) {
             console.log('Sin errores')
-            saveProduct(form)
+            if (!editing){
+                saveProduct(form)
+            }else{
+                updateProduct(form)
+            }
         }
     }
 
@@ -109,7 +108,8 @@ export default function ProductForm({saveProduct}) {
                     type="text"
                     id="title"
                     label="Titulo"
-                    variant="filled" />
+                    variant="filled"
+                    value={form.title} />
                 <TextField error={errorForm.description !== '' ? true : false}
                     onChange={handleChange}
                     helperText={errorForm.description}
@@ -117,7 +117,8 @@ export default function ProductForm({saveProduct}) {
                     type="text"
                     id="description"
                     label="Descripcion"
-                    variant="filled" />
+                    variant="filled"
+                    value={form.description} />
                 <TextField error={errorForm.price !== '' ? true : false}
                     onChange={handleChange}
                     helperText={errorForm.price}
@@ -125,7 +126,8 @@ export default function ProductForm({saveProduct}) {
                     type="number"
                     id="price"
                     label="Precio"
-                    variant="filled" />
+                    variant="filled"
+                    value={form.price} />
                 <TextField error={errorForm.image !== '' ? true : false}
                     onChange={handleChange}
                     helperText={errorForm.image}
@@ -133,7 +135,8 @@ export default function ProductForm({saveProduct}) {
                     type="text"
                     id="link"
                     label="Link de imagen"
-                    variant="filled" />
+                    variant="filled"
+                    value={form.image} />
                 <Button
                     variant="contained"
                     color="default"

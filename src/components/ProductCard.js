@@ -21,9 +21,19 @@ const useStyles = makeStyles({
         height: 220,
     },
 });
-export default function ProductCard({ title, image, description, price }) {
+export default function ProductCard({ id, title, image, description, price, onEdit }) {
     const classes = useStyles();
 
+    const handleEdit = (e) => {
+        const data = {
+            id: id, 
+            title: title, 
+            image: image, 
+            description: description, 
+            price: price
+        }
+        onEdit(data)
+    }
     return (
         <Card className={classes.root}>
             <CardActionArea>
@@ -50,6 +60,7 @@ export default function ProductCard({ title, image, description, price }) {
                     color="default"
                     className={classes.button}
                     startIcon={<EditIcon />}
+                    onClick={handleEdit}
                 >
                     Editar
                 </Button>

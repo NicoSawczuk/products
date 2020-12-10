@@ -23,3 +23,8 @@ export async function saveProduct(data, collection = 'products') {
     db.collection(collection).add(data);
     return getProducts()
 }
+
+export function updateProduct(id, data, collection = 'products') {
+    const recordRef = db.collection(collection).doc(id);
+    return recordRef.update(data);
+};

@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 
 
 
-export default function ListOfProducts({ products, onEdit }) {
+export default function ListOfProducts({ products, onEdit, onDelete }) {
 
 
     return (
@@ -20,6 +20,7 @@ export default function ListOfProducts({ products, onEdit }) {
                                 description={element.description}
                                 price={element.price}
                                 onEdit={onEdit}
+                                onDelete={onDelete}
                             />
                         </Grid>
                     )

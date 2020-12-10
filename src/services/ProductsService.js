@@ -6,7 +6,7 @@ export async function getProducts(collection = 'products') {
         data.docs.forEach((doc) => {
             const data = doc.data();
             const product = {
-                id: doc.id,
+                id: doc,
                 title: data.title,
                 description: data.description,
                 image: data.image,
@@ -27,4 +27,8 @@ export async function saveProduct(data, collection = 'products') {
 export function updateProduct(id, data, collection = 'products') {
     const recordRef = db.collection(collection).doc(id);
     return recordRef.update(data);
+};
+
+export function deleteProduct(id, collection = "products") {
+    return db.collection(collection).doc(id).delete();
 };

@@ -6,14 +6,14 @@ import Sidebar from '../components/Sidebar'
 import ListOfProducts from '../components/ListOfProducts';
 import useStyles from '../hooks/useStyles'
 import useTheme from '../hooks/useTheme'; import Card from '@material-ui/core/Card';
-import { saveProduct, updateProduct } from '../services/ProductsService'
+import { saveProduct, updateProduct, deleteProduct } from '../services/ProductsService'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import ProductForm from '../components/ProductForm';
 import { db } from '../config'
+import ModalDelete from './../components/ModalDelete';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -39,6 +39,9 @@ export default function ProductsContainer() {
         horizontal: ''
     })
 
+    const [openModal, setOpenModal] = useState(false);
+    const [idProductDelete, setIdProductDelete] = useState('')
+
     useEffect(function () {
         setLoading(true)
         const suscribe = async () => {
@@ -51,9 +54,17 @@ export default function ProductsContainer() {
         suscribe();
     }, [])
 
-    const handleClose = () => {
+    const handleCloseAlert = () => {
         setAlert(!alert)
     }
+
+    const handleClickOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
 
     const handleSubmitProduct = (data) => {
         setLoading(true)
@@ -100,11 +111,36 @@ export default function ProductsContainer() {
             })
     }
 
-    const handleButtonEdit = (data) => {
+    const handleDeleteProduct = (id) => {
+        setOpenModal(false)
+        setLoading(true)
+        deleteProduct(id, 'products')
+            .then(() => {
+                setOpenModal(false)
+                setLoading(false)
+                setAlertState({
+                    message: 'Producto eliminado correctamente',
+                    type: 'success',
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                })
+                setAlert(true)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 
+    const handleButtonEdit = (data) => {
         setForm(data)
         setEditing(true)
     }
+    const handleButtonDelete = (id) => {
+        setOpenModal(true)
+        setIdProductDelete(id)
+    }
+
+
     return (
         <ThemeProvider theme={darkTheme}>
             <div className={classes.root}>
@@ -117,13 +153,23 @@ export default function ProductsContainer() {
                             <div className={classes.appBarSpacer} />
                             <Container maxWidth="lg" className={classes.container} >
                                 <Snackbar open={alert}
-                                    autoHideDuration={6000}
-                                    onClose={handleClose}
+                                    autoHideDuration={4000}
+                                    onClose={handleCloseAlert}
                                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
-                                    <Alert onClose={handleClose} severity="success">
+                                    <Alert onClose={handleCloseAlert} severity="success">
                                         {alertState.message}
                                     </Alert>
                                 </Snackbar>
+
+                                <ModalDelete
+                                    title="Eliminar producto"
+                                    description={`¿Esta seguro que desea eliminar el producto con ID: ${idProductDelete}?`}
+                                    openModal={openModal}
+                                    idProductDelete={idProductDelete}
+                                    handleClickOpenModal={handleClickOpenModal}
+                                    handleCloseModal={handleCloseModal}
+                                    handleDeleteProduct={handleDeleteProduct}
+                                />
                                 <Grid container direction="row" justify="center" alignitems="center">
                                     <Card variant="outlined">
                                         <ProductForm
@@ -141,7 +187,8 @@ export default function ProductsContainer() {
                                 <Grid container >
                                     <ListOfProducts
                                         products={products}
-                                        onEdit={handleButtonEdit} />
+                                        onEdit={handleButtonEdit}
+                                        onDelete={handleButtonDelete} />
                                 </Grid>
                             </Container>
                         </React.Fragment>}

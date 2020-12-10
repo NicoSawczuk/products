@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         height: 220,
     },
 });
-export default function ProductCard({ id, title, image, description, price, onEdit }) {
+export default function ProductCard({ id, title, image, description, price, onEdit, onDelete }) {
     const classes = useStyles();
 
     const handleEdit = (e) => {
@@ -34,13 +34,17 @@ export default function ProductCard({ id, title, image, description, price, onEd
         }
         onEdit(data)
     }
+
+    const handleDelete = (e) => {
+        onDelete(id)
+    }
     return (
         <Card className={classes.root}>
             <CardActionArea>
                 <CardMedia
                     className={classes.media}
                     image={image}
-                    title={title}
+                    title={`ID: ${id}`}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
@@ -69,6 +73,7 @@ export default function ProductCard({ id, title, image, description, price, onEd
                     color="secondary"
                     className={classes.button}
                     startIcon={<DeleteIcon />}
+                    onClick={handleDelete}
                 >
                     Borrar
                 </Button>

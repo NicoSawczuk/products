@@ -3,18 +3,17 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from "@material-ui/core/styles";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Sidebar from '../components/Sidebar'
-import ListOfProducts from '../components/ListOfProducts';
 import useStyles from '../hooks/useStyles'
 import useTheme from '../hooks/useTheme'; import Card from '@material-ui/core/Card';
-import { saveProduct, updateProduct, deleteProduct } from '../services/ProductsService'
+import { saveUser, updateUser, deleteUser } from '../services/UsersService'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import ProductForm from '../components/ProductForm';
 import { db } from '../config'
 import ModalDelete from './../components/ModalDelete';
 import UsersTable from './../components/UsersTable';
+import UserForm from '../components/UserForm';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -25,7 +24,20 @@ export default function UsersContainer() {
     const { darkTheme, changeTheme, darkState } = useTheme()
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(true)
+    const [editing, setEditing] = useState(false)
+    const [form, setForm] = useState({
+        firstname: '',
+        lastname: '',
+        birthdate: '',
+    })
 
+    const [alert, setAlert] = useState(false)
+    const [alertState, setAlertState] = useState({
+        message: '',
+        type: '',
+        vertical: '',
+        horizontal: ''
+    })
 
     useEffect(function () {
         setLoading(true)
@@ -36,9 +48,64 @@ export default function UsersContainer() {
                     console.log(users)
                     setLoading(false)
                 })
-        } 
+        }
         suscribe();
     }, [])
+
+    const handleCloseAlert = () => {
+        setAlert(!alert)
+    }
+
+
+    const handleSubmitUser = (data) => {
+        setLoading(true)
+        saveUser(data)
+            .then((users) => {
+                console.log(users)
+                setForm({
+                    firstname: '',
+                    lastname: '',
+                    birthdate: '',
+                })
+                setUsers(users)
+                setLoading(false)
+                setAlertState({
+                    message: 'Usuario cargado correctamente',
+                    type: 'success',
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                })
+                setAlert(true)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const handleEditUser = (data) => {
+        setLoading(true)
+        updateUser(data.id, data, 'users')
+            .then(() => {
+                setForm({
+                    firstname: '',
+                    lastname: '',
+                    birthdate: '',
+                })
+                setEditing(false)
+                setLoading(false)
+                setAlertState({
+                    message: 'Usuario modificado correctamente',
+                    type: 'success',
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                })
+                setAlert(true)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -50,6 +117,27 @@ export default function UsersContainer() {
                         :
                         <React.Fragment>
                             <div className={classes.appBarSpacer} />
+                            <Container maxWidth="lg" className={classes.container} >
+                                <Snackbar open={alert}
+                                    autoHideDuration={4000}
+                                    onClose={handleCloseAlert}
+                                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}>
+                                    <Alert onClose={handleCloseAlert} severity="success">
+                                        {alertState.message}
+                                    </Alert>
+                                </Snackbar>
+                                <Grid container direction="row" justify="center" alignitems="center">
+                                    <Card variant="outlined">
+                                        <UserForm
+                                            saveUser={handleSubmitUser}
+                                            updateUser={handleEditUser}
+                                            form={form}
+                                            setForm={setForm}
+                                            editing={editing}
+                                        />
+                                    </Card>
+                                </Grid>
+                            </Container>
                             <Container maxWidth="lg" className={classes.container} spacing={2}>
 
                                 <Grid container >

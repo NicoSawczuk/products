@@ -72,6 +72,12 @@ export default function ProductsContainer() {
             .then((products) => {
                 console.log(products)
                 setProducts(products)
+                setForm({
+                    title: '',
+                    description: '',
+                    price: '',
+                    image: ''
+                })
                 setLoading(false)
                 setAlertState({
                     message: 'Producto cargado correctamente',

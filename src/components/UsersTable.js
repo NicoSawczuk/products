@@ -37,6 +37,10 @@ export default function UsersTable({ rows }) {
         setPage(0);
     };
 
+    const castDate = (date) => {
+        let datearray1 = date.split("-")
+        return `${datearray1[2]}/${datearray1[1]}/${datearray1[0]}`
+    }
     return (
         <Paper className={classes.root}>
             <TableContainer className={classes.container}>
@@ -57,7 +61,7 @@ export default function UsersTable({ rows }) {
                                         {row.firstname}
                                     </TableCell>
                                     <TableCell align="left">{row.lastname}</TableCell>
-                                    <TableCell align="right">{row.birthdate}</TableCell>
+                                    <TableCell align="right">{castDate(row.birthdate)}</TableCell>
                                     <TableCell align="right">
                                         <Button
                                             variant="contained"

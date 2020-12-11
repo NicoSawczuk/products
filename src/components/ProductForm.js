@@ -142,7 +142,7 @@ export default function ProductForm({ saveProduct, updateProduct, form, setForm,
                     color="default"
                     startIcon={<CloudUploadIcon />}
                     type="submit" >
-                    Cargar
+                    Guardar
                 </Button>
             </form>
         </React.Fragment>

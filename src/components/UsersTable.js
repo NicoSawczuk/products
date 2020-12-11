@@ -18,7 +18,7 @@ const useStyles = makeStyles({
         width: '100%',
     },
     container: {
-        maxHeight: 440,
+        maxHeight: 550,
     },
 });
 
@@ -54,7 +54,7 @@ export default function UsersTable({ rows }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => {
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <TableRow key={row.id.id}>
                                     <TableCell component="th" scope="row">

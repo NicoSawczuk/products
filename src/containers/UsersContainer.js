@@ -39,13 +39,15 @@ export default function UsersContainer() {
         horizontal: ''
     })
 
+    const [openModal, setOpenModal] = useState(false);
+    const [idUserDelete, setIdUserDelete] = useState('')
+
     useEffect(function () {
         setLoading(true)
         const suscribe = async () => {
             db.collection('users')
                 .onSnapshot(function (data) {
                     setUsers(data.docs.map(doc => ({ ...doc.data(), id: doc })))
-                    console.log(users)
                     setLoading(false)
                 })
         }
@@ -56,12 +58,19 @@ export default function UsersContainer() {
         setAlert(!alert)
     }
 
+    const handleClickOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
 
     const handleSubmitUser = (data) => {
         setLoading(true)
         saveUser(data)
             .then((users) => {
-                console.log(users)
                 setForm({
                     firstname: '',
                     lastname: '',
@@ -106,6 +115,35 @@ export default function UsersContainer() {
             })
     }
 
+    const handleDeleteUser = (id) => {
+        setOpenModal(false)
+        setLoading(true)
+        deleteUser(id, 'users')
+            .then(() => {
+                setOpenModal(false)
+                setLoading(false)
+                setAlertState({
+                    message: 'Usuario eliminado correctamente',
+                    type: 'success',
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                })
+                setAlert(true)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const handleButtonEdit = (data) => {
+        setForm(data)
+        setEditing(true)
+    }
+    const handleButtonDelete = (id) => {
+        setOpenModal(true)
+        setIdUserDelete(id)
+    }
+
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -126,6 +164,15 @@ export default function UsersContainer() {
                                         {alertState.message}
                                     </Alert>
                                 </Snackbar>
+                                <ModalDelete
+                                    title="Eliminar producto"
+                                    description={`¿Esta seguro que desea eliminar el producto con ID: ${idUserDelete}?`}
+                                    openModal={openModal}
+                                    idObjectDelete={idUserDelete}
+                                    handleClickOpenModal={handleClickOpenModal}
+                                    handleCloseModal={handleCloseModal}
+                                    handleDeleteObject={handleDeleteUser}
+                                />
                                 <Grid container direction="row" justify="center" alignitems="center">
                                     <Card variant="outlined">
                                         <UserForm
@@ -143,6 +190,8 @@ export default function UsersContainer() {
                                 <Grid container >
                                     <UsersTable
                                         rows={users}
+                                        onEdit={handleButtonEdit}
+                                        onDelete={handleButtonDelete}
                                     />
                                 </Grid>
                             </Container>

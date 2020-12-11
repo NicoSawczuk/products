@@ -6,10 +6,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function ModalDelete({ title, description, openModal, idProductDelete, handleClickOpenModal, handleCloseModal, handleDeleteProduct }) {
+export default function ModalDelete({ title, description, openModal, idObjectDelete, handleClickOpenModal, handleCloseModal, handleDeleteObject }) {
 
     const onDelete = () => {
-        handleDeleteProduct(idProductDelete)
+        handleDeleteObject(idObjectDelete)
     }
 
     return (

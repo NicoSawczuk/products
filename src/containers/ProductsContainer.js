@@ -70,7 +70,6 @@ export default function ProductsContainer() {
         setLoading(true)
         saveProduct(data)
             .then((products) => {
-                console.log(products)
                 setProducts(products)
                 setForm({
                     title: '',
@@ -171,10 +170,10 @@ export default function ProductsContainer() {
                                     title="Eliminar producto"
                                     description={`¿Esta seguro que desea eliminar el producto con ID: ${idProductDelete}?`}
                                     openModal={openModal}
-                                    idProductDelete={idProductDelete}
+                                    idObjectDelete={idProductDelete}
                                     handleClickOpenModal={handleClickOpenModal}
                                     handleCloseModal={handleCloseModal}
-                                    handleDeleteProduct={handleDeleteProduct}
+                                    handleDeleteObject={handleDeleteProduct}
                                 />
                                 <Grid container direction="row" justify="center" alignitems="center">
                                     <Card variant="outlined">

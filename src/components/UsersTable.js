@@ -22,8 +22,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function UsersTable({ rows }) {
-    console.log(rows)
+export default function UsersTable({ rows, onEdit, onDelete }) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -36,6 +35,20 @@ export default function UsersTable({ rows }) {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    const handleEdit = (row) => {
+        const data = {
+            id: row.id.id,
+            firstname: row.firstname,
+            lastname: row.lastname,
+            birthdate: row.birthdate
+        }
+        onEdit(data)
+    }
+
+    const handleDelete = (id) => {
+        onDelete(id)
+    }
 
     const castDate = (date) => {
         let datearray1 = date.split("-")
@@ -68,6 +81,7 @@ export default function UsersTable({ rows }) {
                                             color="default"
                                             className={classes.button}
                                             style={{ marginRight: 2 }}
+                                            onClick={()=>handleEdit(row)}
                                         >
                                             <EditIcon />
                                         </Button>
@@ -76,6 +90,7 @@ export default function UsersTable({ rows }) {
                                             color="secondary"
                                             className={classes.button}
                                             style={{ marginLeft: 2 }}
+                                            onClick={()=>handleDelete(row.id.id)}
                                         >
                                             <DeleteIcon />
                                         </Button>

@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Container from '@material-ui/core/Container';
+import { useLocation } from "wouter";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -40,11 +41,12 @@ export default function AuthForm() {
     })
     const [error, setError] = useState('')
     const [logged, setLogged] = useState(true)
-
+    const [location, setLocation] = useLocation();
     const [alert, setAlert] = useState(false)
     useEffect(function () {
         if (errorMessage !== '') {
             setError(errorMessage)
+            console.log(error)
             setAlert(true)
             setErrorMessage('')
         } else {
@@ -110,6 +112,7 @@ export default function AuthForm() {
 
     const handleSignOut = () => {
         signOut()
+        
     }
 
 

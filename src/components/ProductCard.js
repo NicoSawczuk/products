@@ -12,6 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import useAuth from '../hooks/useAuth'
 
+
 const useStyles = makeStyles({
     root: {
         flexGrow: 1,
@@ -24,13 +25,13 @@ const useStyles = makeStyles({
 });
 export default function ProductCard({ id, title, image, description, price, onEdit, onDelete }) {
     const classes = useStyles();
-    const { login, register, signOut, isLogged } = useAuth()
+    const { isLogged } = useAuth()
     const handleEdit = (e) => {
         const data = {
-            id: id, 
-            title: title, 
-            image: image, 
-            description: description, 
+            id: id,
+            title: title,
+            image: image,
+            description: description,
             price: price
         }
         onEdit(data)
@@ -60,24 +61,28 @@ export default function ProductCard({ id, title, image, description, price, onEd
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button
-                    variant="contained"
-                    color="default"
-                    className={classes.button}
-                    startIcon={<EditIcon />}
-                    onClick={handleEdit}
-                >
-                    Editar
-                </Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    className={classes.button}
-                    startIcon={<DeleteIcon />}
-                    onClick={handleDelete}
-                >
-                    Borrar
-                </Button>
+                {isLogged()
+                    ? <React.Fragment>
+                        <Button
+                            variant="contained"
+                            color="default"
+                            className={classes.button}
+                            startIcon={<EditIcon />}
+                            onClick={handleEdit}
+                        >
+                            Editar
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            startIcon={<DeleteIcon />}
+                            onClick={handleDelete}
+                        >
+                            Borrar
+                        </Button>
+                    </React.Fragment>
+                    : null}
             </CardActions>
         </Card>
     );

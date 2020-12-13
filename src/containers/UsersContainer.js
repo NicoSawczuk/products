@@ -14,6 +14,7 @@ import { db } from '../config'
 import ModalDelete from './../components/ModalDelete';
 import UsersTable from './../components/UsersTable';
 import UserForm from '../components/UserForm';
+import useAuth from '../hooks/useAuth'
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -41,6 +42,7 @@ export default function UsersContainer() {
 
     const [openModal, setOpenModal] = useState(false);
     const [idUserDelete, setIdUserDelete] = useState('')
+    const { isLogged } = useAuth()
 
     useEffect(function () {
         setLoading(true)
@@ -173,17 +175,21 @@ export default function UsersContainer() {
                                     handleCloseModal={handleCloseModal}
                                     handleDeleteObject={handleDeleteUser}
                                 />
-                                <Grid container direction="row" justify="center" alignitems="center">
-                                    <Card variant="outlined">
-                                        <UserForm
-                                            saveUser={handleSubmitUser}
-                                            updateUser={handleEditUser}
-                                            form={form}
-                                            setForm={setForm}
-                                            editing={editing}
-                                        />
-                                    </Card>
-                                </Grid>
+                                {isLogged()
+                                    ? <React.Fragment>
+                                        <Grid container direction="row" justify="center" alignitems="center">
+                                            <Card variant="outlined">
+                                                <UserForm
+                                                    saveUser={handleSubmitUser}
+                                                    updateUser={handleEditUser}
+                                                    form={form}
+                                                    setForm={setForm}
+                                                    editing={editing}
+                                                />
+                                            </Card>
+                                        </Grid>
+                                    </React.Fragment>
+                                    : null}
                             </Container>
                             <Container maxWidth="lg" className={classes.container} spacing={2}>
 

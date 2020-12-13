@@ -11,6 +11,7 @@ export default function useAuth() {
     const login = (form) => {
         auth.signInWithEmailAndPassword(form.email, form.password)
             .then((user) => {
+                window.location.reload()
                 window.sessionStorage.setItem('userEmail', auth.currentUser.email)
                 window.sessionStorage.setItem('userToken', auth.currentUser.refreshToken)
             })
@@ -18,8 +19,7 @@ export default function useAuth() {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 setErrorMessage(errorMessage)
-                console.log(errorCode)
-                console.log(errorMessage)
+                alert(errorMessage)
             });
     }
 
@@ -27,6 +27,7 @@ export default function useAuth() {
         console.log(form)
         auth.createUserWithEmailAndPassword(form.email, form.password)
             .then((user) => {
+                window.location.reload()
                 window.sessionStorage.setItem('userEmail', auth.currentUser.email)
                 window.sessionStorage.setItem('userToken', auth.currentUser.refreshToken)
             })
@@ -34,8 +35,7 @@ export default function useAuth() {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 setErrorMessage(errorMessage)
-                console.log(errorCode)
-                console.log(errorMessage)
+                alert(errorMessage)
             });
     }
 
@@ -43,7 +43,7 @@ export default function useAuth() {
         auth.signOut().then(function () {
             window.sessionStorage.removeItem('userEmail')
             window.sessionStorage.removeItem('userToken')
-            console.log('singout')
+            window.location.reload()
         }).catch(function (error) {
             console.log(error)
         });
@@ -58,7 +58,7 @@ export default function useAuth() {
 
     }
 
-    const getCurrentUser = () =>{
+    const getCurrentUser = () => {
         return auth.currentUser.email
     }
 

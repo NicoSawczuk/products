@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import useAuth from '../hooks/useAuth'
 
 
 const useStyles = makeStyles({
@@ -26,6 +27,7 @@ export default function UsersTable({ rows, onEdit, onDelete }) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const { isLogged } = useAuth()
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -63,7 +65,7 @@ export default function UsersTable({ rows, onEdit, onDelete }) {
                             <TableCell>Nombre</TableCell>
                             <TableCell align="left">Apellido</TableCell>
                             <TableCell align="right">Fecha de nacimiento</TableCell>
-                            <TableCell align="right">Opciones</TableCell>
+                            {isLogged() ? <TableCell align="right">Opciones</TableCell> : null}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -75,26 +77,30 @@ export default function UsersTable({ rows, onEdit, onDelete }) {
                                     </TableCell>
                                     <TableCell align="left">{row.lastname}</TableCell>
                                     <TableCell align="right">{castDate(row.birthdate)}</TableCell>
-                                    <TableCell align="right">
-                                        <Button
-                                            variant="contained"
-                                            color="default"
-                                            className={classes.button}
-                                            style={{ marginRight: 2 }}
-                                            onClick={()=>handleEdit(row)}
-                                        >
-                                            <EditIcon />
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            className={classes.button}
-                                            style={{ marginLeft: 2 }}
-                                            onClick={()=>handleDelete(row.id.id)}
-                                        >
-                                            <DeleteIcon />
-                                        </Button>
-                                    </TableCell>
+                                    {isLogged()
+                                        ? <React.Fragment>
+                                            <TableCell align="right">
+                                                <Button
+                                                    variant="contained"
+                                                    color="default"
+                                                    className={classes.button}
+                                                    style={{ marginRight: 2 }}
+                                                    onClick={() => handleEdit(row)}
+                                                >
+                                                    <EditIcon />
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    className={classes.button}
+                                                    style={{ marginLeft: 2 }}
+                                                    onClick={() => handleDelete(row.id.id)}
+                                                >
+                                                    <DeleteIcon />
+                                                </Button>
+                                            </TableCell>
+                                        </React.Fragment>
+                                        : null}
                                 </TableRow>
                             );
                         })}

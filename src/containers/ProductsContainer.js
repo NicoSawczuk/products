@@ -5,7 +5,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Sidebar from '../components/Sidebar'
 import ListOfProducts from '../components/ListOfProducts';
 import useStyles from '../hooks/useStyles'
-import useTheme from '../hooks/useTheme'; import Card from '@material-ui/core/Card';
+import useTheme from '../hooks/useTheme'; 
+import Card from '@material-ui/core/Card';
 import { saveProduct, updateProduct, deleteProduct } from '../services/ProductsService'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';

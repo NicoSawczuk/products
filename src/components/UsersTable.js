@@ -59,13 +59,13 @@ export default function UsersTable({ rows, onEdit, onDelete }) {
     return (
         <Paper className={classes.root}>
             <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
+                <Table aria-label="sticky table">
+                    <TableHead style={ {backgroundColor: '#e0e0e0', borderTop: '2px'} }  >
                         <TableRow>
-                            <TableCell>Nombre</TableCell>
-                            <TableCell align="left">Apellido</TableCell>
-                            <TableCell align="right">Fecha de nacimiento</TableCell>
-                            {isLogged() ? <TableCell align="right">Opciones</TableCell> : null}
+                            <TableCell style={{color: '#212121'}}>Nombre</TableCell>
+                            <TableCell style={{color: '#212121'}} align="left">Apellido</TableCell>
+                            <TableCell style={{color: '#212121'}} align="right">Fecha de nacimiento</TableCell>
+                            {isLogged() ? <TableCell style={{color: '#212121'}} align="right">Opciones</TableCell> : null}
                         </TableRow>
                     </TableHead>
                     <TableBody>

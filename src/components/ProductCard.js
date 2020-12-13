@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { DialogTitle } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import useAuth from '../hooks/useAuth'
 
 const useStyles = makeStyles({
     root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
 });
 export default function ProductCard({ id, title, image, description, price, onEdit, onDelete }) {
     const classes = useStyles();
-
+    const { login, register, signOut, isLogged } = useAuth()
     const handleEdit = (e) => {
         const data = {
             id: id, 

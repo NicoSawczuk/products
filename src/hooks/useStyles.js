@@ -82,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
   gridItem: {
     paddingTop: theme.spacing(6),
   },
+  typography: {
+    padding: theme.spacing(2),
+  },
 
 }));
 

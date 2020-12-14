@@ -12,7 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Container from '@material-ui/core/Container';
-import { useLocation } from "wouter";
+import EmailIcon from '@material-ui/icons/Email';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -41,7 +43,6 @@ export default function AuthForm() {
     })
     const [error, setError] = useState('')
     const [logged, setLogged] = useState(true)
-    const [location, setLocation] = useLocation();
     const [alert, setAlert] = useState(false)
     useEffect(function () {
         if (errorMessage !== '') {
@@ -112,7 +113,7 @@ export default function AuthForm() {
 
     const handleSignOut = () => {
         signOut()
-        
+
     }
 
 
@@ -149,7 +150,14 @@ export default function AuthForm() {
                                 id="email"
                                 label="Email"
                                 variant="filled"
-                                value={form.email} />
+                                value={form.email}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <EmailIcon fontSize="small" />
+                                        </InputAdornment>
+                                    ),
+                                }} />
                         </div>
 
                         <div>
@@ -161,7 +169,14 @@ export default function AuthForm() {
                                 id="password"
                                 label="Contraseña"
                                 variant="filled"
-                                value={form.password} />
+                                value={form.password}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <LockOpenIcon fontSize="small" />
+                                        </InputAdornment>
+                                    ),
+                                }} />
                         </div>
 
                         <div>

@@ -8,10 +8,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import useAuth from '../hooks/useAuth'
+import IconButton from '@material-ui/core/IconButton';
 
 
 const useStyles = makeStyles({
@@ -80,24 +80,26 @@ export default function UsersTable({ rows, onEdit, onDelete }) {
                                     {isLogged()
                                         ? <React.Fragment>
                                             <TableCell align="right">
-                                                <Button
+                                                <IconButton
                                                     variant="contained"
                                                     color="default"
+                                                    size="small"
                                                     className={classes.button}
                                                     style={{ marginRight: 2 }}
                                                     onClick={() => handleEdit(row)}
                                                 >
                                                     <EditIcon />
-                                                </Button>
-                                                <Button
+                                                </IconButton>
+                                                <IconButton
                                                     variant="contained"
                                                     color="secondary"
+                                                    size="small"
                                                     className={classes.button}
                                                     style={{ marginLeft: 2 }}
                                                     onClick={() => handleDelete(row.id.id)}
                                                 >
                                                     <DeleteIcon />
-                                                </Button>
+                                                </IconButton>
                                             </TableCell>
                                         </React.Fragment>
                                         : null}

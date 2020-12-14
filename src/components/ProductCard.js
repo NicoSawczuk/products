@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { DialogTitle } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import useAuth from '../hooks/useAuth'
@@ -55,8 +54,8 @@ export default function ProductCard({ id, title, image, description, price, onEd
                     <Typography variant="body2" color="textSecondary" component="p">
                         {description}
                     </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {price}
+                    <Typography variant="h6" color="primary" style={{marginTop: 4}}>
+                        <b>${price}</b>
                     </Typography>
                 </CardContent>
             </CardActionArea>
@@ -69,6 +68,7 @@ export default function ProductCard({ id, title, image, description, price, onEd
                             className={classes.button}
                             startIcon={<EditIcon />}
                             onClick={handleEdit}
+                            size="small"
                         >
                             Editar
                         </Button>
@@ -78,6 +78,7 @@ export default function ProductCard({ id, title, image, description, price, onEd
                             className={classes.button}
                             startIcon={<DeleteIcon />}
                             onClick={handleDelete}
+                            size="small"
                         >
                             Borrar
                         </Button>
